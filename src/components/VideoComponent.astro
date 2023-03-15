@@ -1,0 +1,21 @@
+---
+export interface Props {
+	video: string;
+}
+
+const { video } = Astro.props;
+---
+<div class="custom-column">
+    <div class="youtube-wrapper">
+      <iframe
+        class="youtube"
+        width="375"
+        height="300"
+        style="max-width:100%"
+        src={video}
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      />
+    </div>
+  </div>
