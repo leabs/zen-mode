@@ -1,6 +1,6 @@
 # Zen Mode
 
-Zen Mode is a website which allows you to format individual websites or individual youtube videos into a high level view, and then share the link with your friends. **Currently this is limited to youtube videos, but I am working on adding support for more video sites and entire websites.**
+[Zen Mode](https://zen-mode.vercel.app/) is a website which allows you to format individual websites or individual youtube videos into a high level view, and then share the link with your friends. **Currently this is limited to youtube videos, but I am working on adding support for more video sites and entire websites.**
 
 ![Screenshot of Zen Mode](public/screenshot.png)
 
@@ -26,7 +26,7 @@ Star and watch the [repo]() to get updates on new features!
 
 ## How to use
 
-- Go to the website: https://zenmode.app
+- Go to the website: [https://zen-mode.vercel.app/](https://zen-mode.vercel.app/)
 - If it is your first time here, click add videos to get started
 - Enter the URL of the website or video you want to display
 - Set the number of Rows you want

@@ -7,6 +7,68 @@ import streams from "../data/streams.json";
   title="ZEN MODE, an easy way to layout embedded content and share it with friends"
 >
   <main class="content">
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <form>
+            <details>
+              <summary>Columns</summary>
+              <label for="cols">How Many Columns:</label>
+              <select name="cols" id="columnSelectBox">
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+              <br /><br />
+              <input type="submit" value="Submit" />
+            </details>
+          </form>
+        </div>
+        <div class="column">
+          <form>
+            <details>
+              <summary>Video Links</summary>
+              <label for="vid-1">1:</label>
+              <input
+                class="input is-small"
+                type="text"
+                id="vid-1"
+                name="vid-1"
+                placeholder="https://www.youtube.com/watch?v=3szkFHfr6sA"
+              /><button class="delete"></button><br /><br />
+              <label for="vid-2">2:</label>
+              <input
+                class="input is-small"
+                type="text"
+                id="vid-2"
+                name="vid-2"
+                placeholder="https://www.youtube.com/watch?v=JJqXeRFsLjE"
+              /><button class="delete"></button><br /><br />
+              <label for="vid-3">3:</label>
+              <input
+                class="input is-small"
+                type="text"
+                id="vid-3"
+                name="vid-3"
+                placeholder="https://www.youtube.com/watch?v=OIqUka8BOS8"
+              /><button class="delete"></button><br /><br />
+              <label for="vid-4">4:</label>
+              <input
+                class="input is-small"
+                type="text"
+                id="vid-4"
+                name="vid-4"
+                placeholder="https://www.youtube.com/watch?v=ydYDqZQpim8"
+              /><button class="delete"></button><br /><br />
+
+              <input type="submit" value="Submit" disabled />
+            </details>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div class="custom-columns">
       {
         streams.map((stream) => {
@@ -29,25 +91,15 @@ import streams from "../data/streams.json";
         })
       }
     </div>
-
-    <!--Ask the user how many columns they'd like -->
-    <form>
-      <label for="cols">How Many Columns:</label>
-      <select name="cols" id="columnSelectBox">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-      </select>
-      <br /><br />
-      <input type="submit" value="Submit" />
-    </form>
   </main>
 </Layout>
 
 <style>
   body {
     margin: 0;
+  }
+  .container{
+    padding: 12px;
   }
   .custom-columns {
     display: flex;
@@ -117,4 +169,5 @@ import streams from "../data/streams.json";
     const value = event.target.value;
     window.location.search = `?cols=${value}`;
   });
+  //TODO: Set select box option to the value of the URL param
 </script>
