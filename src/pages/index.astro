@@ -1,81 +1,120 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Layout from "../layouts/Layout.astro";
+import streams from "../data/streams.json";
 ---
 
-<Layout title="Welcome to Astro.">
-	<main>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		</p>
-		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
-		</ul>
-	</main>
+<Layout
+  title="ZEN MODE, an easy way to layout embedded content and share it with friends"
+>
+  <main class="content">
+    <div class="custom-columns">
+      {
+        streams.map((stream) => {
+          return (
+            <div class="custom-column">
+              <div class="youtube-wrapper">
+                <iframe
+                  class="youtube"
+                  width="375"
+                  height="300"
+                  style="max-width:100%"
+                  src={`https://www.youtube.com/embed/${stream.url}?autoplay=1&mute=1`}
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                />
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+
+    <!--Ask the user how many columns they'd like -->
+    <form>
+      <label for="cols">How Many Columns:</label>
+      <select name="cols" id="columnSelectBox">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+      <br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+  </main>
 </Layout>
 
 <style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	h1 {
-		font-size: 3rem;
-		font-weight: 800;
-		margin: 0;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		line-height: 1.6;
-		margin: 1rem 0;
-		border: 1px solid rgba(var(--accent), 25%);
-		background-color: white;
-		padding: 1rem;
-		border-radius: 0.4rem;
-	}
-	.instructions code {
-		font-size: 0.875em;
-		font-weight: bold;
-		background: rgba(var(--accent), 12%);
-		color: rgb(var(--accent));
-		border-radius: 4px;
-		padding: 0.3em 0.45em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 1rem;
-		padding: 0;
-	}
+  body {
+    margin: 0;
+  }
+  .custom-columns {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .custom-column {
+    --element-width: 25%;
+    width: var(--element-width, 100%);
+    box-sizing: border-box;
+  }
+  @media (max-width: 768px) {
+    .custom-column {
+      width: 100%;
+    }
+  }
+  main {
+  }
+  h1 {
+    font-size: 3rem !important;
+    font-weight: 800 !important;
+    margin: 0;
+  }
+  .youtube-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%;
+  }
+  .youtube-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
 </style>
+
+<script>
+  //Set width prop as URL param '?cols=2'
+  const urlParams = new URLSearchParams(window.location.search);
+  const cols = urlParams.get("cols");
+  const width = 100 / cols;
+
+  //Set .custom-column width based on the const width property
+  const customColumns = document.querySelectorAll(".custom-column");
+  customColumns.forEach((column) => {
+    column.style.setProperty("--element-width", `${width}%`);
+  });
+
+  //Set default columns to 2
+  const defaultColumns = 2;
+
+  //if URL param is not set, set it to defaultColumns
+  if (!urlParams.has("cols")) {
+    window.location.search = `?cols=${defaultColumns}`;
+  }
+
+  //Update path and width based on user input
+  const input = document.querySelector("columnSizeInput");
+  const output = document.querySelector("#columnSizeOutput").value;
+
+  //If value changes for the select box input, update the columns
+  const selectBox = document.querySelector("#columnSelectBox");
+  selectBox.addEventListener("change", (event) => {
+    const value = event.target.value;
+    window.location.search = `?cols=${value}`;
+  });
+</script>

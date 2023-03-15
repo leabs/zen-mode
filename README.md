@@ -1,55 +1,69 @@
-# Astro Starter Kit: Basics
+# Zen Mode
 
-```
-npm create astro@latest -- --template basics
-```
+Zen Mode is a website which allows you to format individual websites or individual youtube videos into a high level view, and then share the link with your friends. **Currently this is limited to youtube videos, but I am working on adding support for more video sites and entire websites.**
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+![Screenshot of Zen Mode](public/screenshot.png)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Why
 
-![basics](https://user-images.githubusercontent.com/4677417/186188965-73453154-fdec-4d6b-9c34-cb35c248ae5b.png)
+Sometimes I find myself at my computer monitor trying to manage multiple sites or video streams in different tabs. I wanted to create a website which would allow me to format the iframe sites into a single window, and then share the link with my friends.
 
+## Use Cases
 
-## 🚀 Project Structure
+Here are a few use cases I can think of:
 
-Inside of your Astro project, you'll see the following folders and files:
+- Breaking news: You want to watch multiple videos and fullscreen the one that is most interesting to you.
+- Monitoring: You want to monitor multiple live streams like Train Cam footage, or a live stream of a city? 
+- Collaborative Coding: An open window in an online IDE, docs site, and live preview.
+- Sharing: You want to share a URL of multiple videos with your friends? Zen mode lets you do that!
 
-```
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Note
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+- Not all sites are supported. If you find a site that is not supported, please open an issue and I will try to add support for it.
+- Autoplay is currently disabled in Safari and iOS. I am working on a solution to this problem.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Star and watch the [repo]() to get updates on new features!
 
-Any static assets, like images, can be placed in the `public/` directory.
+## How to use
 
-## 🧞 Commands
+- Go to the website: https://zenmode.app
+- If it is your first time here, click add videos to get started
+- Enter the URL of the website or video you want to display
+- Set the number of Rows you want
+- Set the number of Columns you want
+- The URL will update with your row and column count, as well as your video paths for easy sharing. This URL will likely be pretty long, so use a service like [tinyurl](https://tinyurl.com/) to shorten it.
+
+## How to run locally
+
+This site uses [Astro](https://astro.build), a static site generator. To run locally, you will need to install the dependencies and run the dev server.
+
+1. Clone or download the repo
+2. Install dependencies: `npm install`
+3. Run the dev server: `npm run dev`
+4. Open the site in your browser: http://localhost:3000
+
+## Other Commands
 
 All commands are run from the root of the project, from a terminal:
 
 | Command                | Action                                           |
 | :--------------------- | :----------------------------------------------- |
-| `npm install`          | Installs dependencies                            |
-| `npm run dev`          | Starts local dev server at `localhost:3000`      |
 | `npm run build`        | Build your production site to `./dist/`          |
 | `npm run preview`      | Preview your build locally, before deploying     |
 | `npm run astro ...`    | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro --help` | Get help using the Astro CLI                     |
 
-## 👀 Want to learn more?
+## Want to learn more?
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Feel free to check [the Astro documentation](https://docs.astro.build) or jump into their [Discord server](https://astro.build/chat).
+
+## How to deploy
+
+I deploy using [Vercel](https://vercel.com/). To deploy, you will need to create a Vercel account and link it to your GitHub account. Then, you can deploy the site by adding the repo as a new project and clicking the "Deploy" button below.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=)
+
+## Main technologies used
+
+- [Astro](https://astro.build) - Static site generator
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
