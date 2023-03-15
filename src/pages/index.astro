@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import streams from "../data/streams.json";
+
+import ColumnSetting from "../components/ColumnSetting.astro";
 ---
 
 <Layout
@@ -10,20 +12,7 @@ import streams from "../data/streams.json";
     <div class="container">
       <div class="columns">
         <div class="column">
-          <form>
-            <details>
-              <summary>Columns</summary>
-              <label for="cols">How Many Columns:</label>
-              <select name="cols" id="columnSelectBox">
-                <option value="1">1</option>
-                <option value="2" selected>2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-              </select>
-              <br /><br />
-              <input type="submit" value="Submit" />
-            </details>
-          </form>
+          <ColumnSetting /> 
         </div>
         <div class="column">
           <form>
