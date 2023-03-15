@@ -3,6 +3,21 @@ import Layout from "../layouts/Layout.astro";
 import streams from "../data/streams.json";
 
 import ColumnSetting from "../components/ColumnSetting.astro";
+
+const errors = { videos: "" };
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const videos = data.get("videos");
+    if (typeof videos !== "string" || videos.length < 6) {
+      errors.videos += "Password must be at least 6 characters. ";
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
 ---
 
 <Layout
@@ -11,6 +26,7 @@ import ColumnSetting from "../components/ColumnSetting.astro";
   <main class="content">
     
     <div class="custom-columns">
+
       {
         streams.map((stream) => {
           return (
@@ -21,7 +37,6 @@ import ColumnSetting from "../components/ColumnSetting.astro";
                   width="375"
                   height="300"
                   style="max-width:100%"
-                  src={`https://www.youtube.com/embed/${stream.url}?autoplay=1&mute=1`}
                   title="YouTube video player"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
@@ -38,43 +53,27 @@ import ColumnSetting from "../components/ColumnSetting.astro";
           <ColumnSetting /> 
         </div>
         <div class="column">
-          <form>
+          <form method="POST">
             <details>
               <summary>Video Links</summary>
-              <label for="vid-1">1:</label>
-              <input
-                class="input is-small"
-                type="text"
-                id="vid-1"
-                name="vid-1"
-                placeholder="https://www.youtube.com/watch?v=3szkFHfr6sA"
-              /><button class="delete"></button><br /><br />
-              <label for="vid-2">2:</label>
-              <input
-                class="input is-small"
-                type="text"
-                id="vid-2"
-                name="vid-2"
-                placeholder="https://www.youtube.com/watch?v=JJqXeRFsLjE"
-              /><button class="delete"></button><br /><br />
-              <label for="vid-3">3:</label>
-              <input
-                class="input is-small"
-                type="text"
-                id="vid-3"
-                name="vid-3"
-                placeholder="https://www.youtube.com/watch?v=OIqUka8BOS8"
-              /><button class="delete"></button><br /><br />
-              <label for="vid-4">4:</label>
-              <input
-                class="input is-small"
-                type="text"
-                id="vid-4"
-                name="vid-4"
-                placeholder="https://www.youtube.com/watch?v=ydYDqZQpim8"
-              /><button class="delete"></button><br /><br />
+              {
+                streams.map((stream) => {
+                  return (
+                    <label for={stream.url}></label>
+                    <input
+                      class="input is-small"
+                      type="text"
+                      id={stream.url}
+                      name={stream.url}
+                      placeholder={stream.url}
+                    /><button class="delete"></button><br /><br />
+                  );
+                })
+              }
 
-              <input type="submit" value="Submit" disabled />
+              <button class="delete"></button><br /><br />
+
+              <input type="submit" value="Submit" />
             </details>
           </form>
         </div>
@@ -127,12 +126,14 @@ import ColumnSetting from "../components/ColumnSetting.astro";
     width: 100%;
     height: 100%;
   }
+  
 </style>
 
 <script>
   //Set width prop as URL param '?cols=2'
   const urlParams = new URLSearchParams(window.location.search);
   const cols = urlParams.get("cols");
+  const vids = urlParams.get("vids");
   const width = 100 / cols;
 
   //Set .custom-column width based on the const width property
@@ -141,23 +142,63 @@ import ColumnSetting from "../components/ColumnSetting.astro";
     column.style.setProperty("--element-width", `${width}%`);
   });
 
-  //Set default columns to 2
-  const defaultColumns = 2;
 
-  //if URL param is not set, set it to defaultColumns
+  //Set default paths
+  const defaultColumns = 2;
+  const defaultVids = 
+    ["https://www.youtube.com/watch?v=cxKOWn4Mys8", 
+    "https://www.youtube.com/watch?v=VJueeQSarI4", 
+    "https://www.youtube.com/watch?v=JJqXeRFsLjE",
+    "https://www.youtube.com/watch?v=BahXDYWQAKk"]
+  
+  const defaultVidsCleaned = defaultVids.map((vid) => {
+    return vid.replace("https://www.youtube.com/watch?v=", "");
+  });
+
+  //if URL params are not set, set them with some defaults
   if (!urlParams.has("cols")) {
-    window.location.search = `?cols=${defaultColumns}`;
+    window.location.search = `?cols=${defaultColumns}&vids=${defaultVidsCleaned}`;
   }
 
-  //Update path and width based on user input
-  const input = document.querySelector("columnSizeInput");
-  const output = document.querySelector("#columnSizeOutput").value;
+  //Set array of video links from URL params
+  const vidsArray = vids.split(",");
+  console.log(vidsArray);
 
+  //Prepend https://www.youtube.com/embed/ to each video link
+  const vidsArrayFull = vidsArray.map((vid) => {
+    return `https://www.youtube.com/embed/${vid}?autoplay=1&mute=1`;
+  });
+
+  //push vidsArrayFull to the DOM
+  const vidsArrayFullPush = vidsArrayFull.map((vid) => {
+    return `<iframe
+                  class="youtube"
+                  width="375"
+                  height="300"
+                  style="max-width:100%"
+                  src=${vid}
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                />`;
+  });
+
+  //Set the iframe src attribute to the new video link
+  const youtube = document.querySelectorAll(".youtube");
+  youtube.forEach((vid, index) => {
+    vid.src = vidsArrayFull[index];
+  });
+
+
+
+  
   //If value changes for the select box input, update the columns
   const selectBox = document.querySelector("#columnSelectBox");
   selectBox.addEventListener("change", (event) => {
     const value = event.target.value;
-    window.location.search = `?cols=${value}`;
+    window.location.search = `?cols=${value}?vids=${vidsArrayFull}`;
   });
-  //TODO: Set select box option to the value of the URL param
+
+
+
 </script>
