@@ -48,8 +48,10 @@ if (Astro.request.method === "POST") {
       }
     </div>
     <div class="container">
+      <p>More customization for this page is coming soon! If you want to attempt it yourself, edit the URL params above. <code>?cols=</code> Sets the number of flexbox columns (1 to 4) and <code>&vids=</code> are the youtube video IDs, separated by a comma. Currently the iframes are limited to 4, while I work on some testing.</p>
       <div class="columns">
-        <div class="column">
+        
+        <!-- <div class="column">
           <ColumnSetting /> 
         </div>
         <div class="column">
@@ -76,7 +78,7 @@ if (Astro.request.method === "POST") {
               <input type="submit" value="Submit" />
             </details>
           </form>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -196,7 +198,7 @@ if (Astro.request.method === "POST") {
   const selectBox = document.querySelector("#columnSelectBox");
   selectBox.addEventListener("change", (event) => {
     const value = event.target.value;
-    window.location.search = `?cols=${value}?vids=${vidsArrayFull}`;
+    window.location.search = `?cols=${value}?vids=${defaultVidsCleaned}`;
   });
 
 
