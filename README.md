@@ -1,6 +1,6 @@
 # Zen Mode
 
-[Zen Mode](https://zen-mode.vercel.app/) is a website which allows you to format individual websites or individual youtube videos into a high level view, and then share the link with your friends. **Currently this is limited to youtube videos, but I am working on adding support for more video sites and entire websites.**
+[Zen Mode](https://zenmode.cam) is a website which allows you to format individual websites or individual youtube videos into a high level view, and then share the link with your friends. **Currently this is limited to youtube videos, but I am working on adding support for more video sites and entire websites.**
 
 This project basically ties together: an Astro static site, user selected flexbox properties, and user selected iframes paths.
 
