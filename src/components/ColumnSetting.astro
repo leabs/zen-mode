@@ -1,35 +1,17 @@
----
----
-
 <!--Select form that shows up to 4 columns, hidden on small screens -->
-<form>
-  <details>
-    <summary>Columns</summary>
-    <label for="cols">How Many Columns:</label>
-    <select name="cols" id="columnSelectBox">
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-    </select>
-    <br /><br />
-    <input type="submit" value="Submit" />
-  </details>
-</form>
+<label for="cols">Column Count:</label>
+<select name="cols" id="columnSelectBox">
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+</select>
 
 <script>
   // Get the column value from the URL
   let url = new URL(window.location.href);
   let column = url.searchParams.get("cols");
 
-  //Set the column value the corrosponding option in the select box
-  if (column == 1) {
-    document.getElementById("columnSelectBox").selectedIndex = "0";
-  } else if (column == 2) {
-    document.getElementById("columnSelectBox").selectedIndex = "1";
-  } else if (column == 3) {
-    document.getElementById("columnSelectBox").selectedIndex = "2";
-  } else if (column == 4) {
-    document.getElementById("columnSelectBox").selectedIndex = "3";
-  }
+  //Set current column selection to the value from the URL
+  document.getElementById("columnSelectBox").value = column;
 </script>

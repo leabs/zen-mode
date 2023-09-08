@@ -1,0 +1,29 @@
+<!--Video links -->
+<form method="POST">
+  <div id="videoLinks"></div>
+</form>
+<script>
+   //Set #videoLinks innerHTML to array of input boxes with video urls
+   const videoLinks = document.querySelector("#videoLinks");
+
+//innerHTML for an  array of all the stream links inside input boxes
+videoLinks.innerHTML = vidsArray.map((vid) => {
+  return `<input class="input" type="text" value=${vid} />`;
+});
+//If value changes for the VIDEO LINKS input, update the video links
+const videoLinksInputs = document.querySelectorAll(".input");
+videoLinksInputs.forEach((input) => {
+  input.addEventListener("change", (event) => {
+    const value = event.target.value;
+    //update the URL params to include the new video links array stream.link
+    const vidsArray = document.querySelectorAll(".input");
+    const vidsArrayCleaned = [];
+    vidsArray.forEach((vid) => {
+      if (vid.value) {
+        vidsArrayCleaned.push(vid.value);
+      }
+    });
+    window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+  });
+});
+</script>

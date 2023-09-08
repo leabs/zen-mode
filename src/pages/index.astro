@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import streams from "../data/streams.json";
 
 import ColumnSetting from "../components/ColumnSetting.astro";
+import VideoSetting from "../components/VideoSetting.astro";
 
 const errors = { videos: "" };
 if (Astro.request.method === "POST") {
@@ -24,9 +25,7 @@ if (Astro.request.method === "POST") {
   title="ZEN MODE, an easy way to layout embedded content and share it with friends"
 >
   <main class="content">
-    
     <div class="custom-columns">
-
       {
         streams.map((stream) => {
           return (
@@ -48,40 +47,18 @@ if (Astro.request.method === "POST") {
       }
     </div>
     <div class="container">
-      <p>More customization for this page is coming soon! If you want to attempt it yourself, edit the URL params above. <code>?cols=</code> Sets the number of flexbox columns (1 to 4) and <code>&vids=</code> are the youtube video IDs, separated by a comma. Currently the iframes are limited to 4, while I work on some testing.</p>
+      <p>
+        Set the columns and the YouTube video ID for each video you'd like on the dashboard. The video ID comes after <code>https://www.youtube.com/watch?v="</code>
+      </p>
       <div class="columns">
-        
-        <!-- <div class="column">
-          <ColumnSetting /> 
-        </div>
         <div class="column">
-          <form method="POST">
-            <details>
-              <summary>Video Links</summary>
-              {
-                streams.map((stream) => {
-                  return (
-                    <label for={stream.url}></label>
-                    <input
-                      class="input is-small"
-                      type="text"
-                      id={stream.url}
-                      name={stream.url}
-                      placeholder={stream.url}
-                    /><button class="delete"></button><br /><br />
-                  );
-                })
-              }
-
-              <button class="delete"></button><br /><br />
-
-              <input type="submit" value="Submit" />
-            </details>
-          </form>
-        </div> -->
+          <ColumnSetting />
+        </div>
+        <div class="column" id="videoLinks">
+          <VideoSetting />
+        </div>
       </div>
     </div>
-
   </main>
 </Layout>
 
@@ -89,7 +66,7 @@ if (Astro.request.method === "POST") {
   body {
     margin: 0;
   }
-  .container{
+  .container {
     padding: 12px;
   }
   .custom-columns {
@@ -128,10 +105,22 @@ if (Astro.request.method === "POST") {
     width: 100%;
     height: 100%;
   }
-  
+  p{
+    font-size:16px;
+    font-weight:400;
+  }
 </style>
 
-<script>
+<script is:inline>
+  //Set default paths
+  const defaultColumns = 2;
+  const defaultVids = [
+    "https://www.youtube.com/watch?v=cxKOWn4Mys8",
+    "https://www.youtube.com/watch?v=MDiY0SeyfGw",
+    "https://www.youtube.com/watch?v=cmkAbDUEoyA",
+    "https://www.youtube.com/watch?v=BahXDYWQAKk",
+  ];
+
   //Set width prop as URL param '?cols=2'
   const urlParams = new URLSearchParams(window.location.search);
   const cols = urlParams.get("cols");
@@ -144,15 +133,6 @@ if (Astro.request.method === "POST") {
     column.style.setProperty("--element-width", `${width}%`);
   });
 
-
-  //Set default paths
-  const defaultColumns = 2;
-  const defaultVids = 
-    ["https://www.youtube.com/watch?v=cxKOWn4Mys8", 
-    "https://www.youtube.com/watch?v=MDiY0SeyfGw", 
-    "https://www.youtube.com/watch?v=JJqXeRFsLjE",
-    "https://www.youtube.com/watch?v=BahXDYWQAKk"]
-  
   const defaultVidsCleaned = defaultVids.map((vid) => {
     return vid.replace("https://www.youtube.com/watch?v=", "");
   });
@@ -191,16 +171,59 @@ if (Astro.request.method === "POST") {
     vid.src = vidsArrayFull[index];
   });
 
-
-
-  
-  //If value changes for the select box input, update the columns
+  //If value changes for the COLUMN select box input, update the columns
   const selectBox = document.querySelector("#columnSelectBox");
   selectBox.addEventListener("change", (event) => {
     const value = event.target.value;
-    window.location.search = `?cols=${value}?vids=${defaultVidsCleaned}`;
+    window.location.search = `?cols=${value}&vids=${vidsArray}`;
   });
 
+  //If user clicks the delete button from video stream, remove that iframe from the dashboard
+  const deleteButtons = document.querySelectorAll(".delete");
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.target.previousSibling.remove();
+      event.target.remove();
+      //update the URL params to include the new video links array stream.link
+      const vidsArray = document.querySelectorAll(".input");
+      const vidsArrayCleaned = [];
+      vidsArray.forEach((vid) => {
+        vidsArrayCleaned.push(vid.value);
+      });
+      window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+      console.log();
+    });
+  });
 
+  //If iframe src is undefined, remove it
+  const youtubeIframes = document.querySelectorAll(".youtube");
 
+  youtubeIframes.forEach((iframe) => {
+    iframe.addEventListener("error", (event) => {
+      event.target.remove();
+    });
+  });
+  //Set #videoLinks innerHTML to array of input boxes with video urls
+  const videoLinks = document.querySelector("#videoLinks");
+
+  //innerHTML for an  array of all the stream links inside input boxes
+  videoLinks.innerHTML = vidsArray.map((vid) => {
+    return `<input class="input" type="text" value=${vid} />`;
+  });
+  //If value changes for the VIDEO LINKS input, update the video links
+  const videoLinksInputs = document.querySelectorAll(".input");
+  videoLinksInputs.forEach((input) => {
+    input.addEventListener("change", (event) => {
+      const value = event.target.value;
+      //update the URL params to include the new video links array stream.link
+      const vidsArray = document.querySelectorAll(".input");
+      const vidsArrayCleaned = [];
+      vidsArray.forEach((vid) => {
+        if (vid.value) {
+          vidsArrayCleaned.push(vid.value);
+        }
+      });
+      window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+    });
+  });
 </script>
