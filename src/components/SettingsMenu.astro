@@ -6,7 +6,7 @@ import ColumnSetting from "./ColumnSetting.astro";
 <!-- drawer init and toggle -->
 <div class="text-center">
   <button id="settings-menu"
-    class="text-white bg-white shadow-lg border focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+    class="text-white bg-white shadow-lg border-4 border-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
     type="button"
     data-drawer-target="drawer-example"
     data-drawer-show="drawer-example"
@@ -41,7 +41,7 @@ import ColumnSetting from "./ColumnSetting.astro";
     id="drawer-label"
     class="mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white"
   >
-    Settings Menu
+    Settings
   </h5>
   <button
     type="button"
@@ -67,12 +67,12 @@ import ColumnSetting from "./ColumnSetting.astro";
   </button>
 
   <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
-    Adjust video feeds and layout settings for your video dashboard.
+    Adjust the YouTube video feeds and layout settings for your video dashboard.
   </p>
   <h2 class="mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Video Feeds</h2>
   <VideoSetting />
   <br>
-  <h2 class="mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Layout Settings</h2>
+  <h2 class="mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Layout</h2>
   <ColumnSetting />
   <br>
   <br>
