@@ -39,7 +39,7 @@ import ColumnSetting from "./ColumnSetting.astro";
 >
   <h5
     id="drawer-label"
-    class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400"
+    class="mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white"
   >
     Settings Menu
   </h5>
@@ -69,17 +69,23 @@ import ColumnSetting from "./ColumnSetting.astro";
   <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
     Adjust video feeds and layout settings for your video dashboard.
   </p>
-  <h2>Video Feeds</h2>
+  <h2 class="mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Video Feeds</h2>
   <VideoSetting />
-  <h2>Layout Settings</h2>
+  <br>
+  <h2 class="mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Layout Settings</h2>
   <ColumnSetting />
+  <br>
+  <p>
+    Set the columns and the YouTube video ID for each video you'd like on the dashboard in the settings menu. The video ID comes after <code>https://www.youtube.com/watch?v=</code>
+  </p>
+  <p>Saving dashboards and user accounts coming soon.</p>
 </div>
 
 <style>
     #settings-menu{
         position: fixed;
         top: 3rem;
-        right: 1rem;
+        right: .75rem;
         z-index: 100;
     }
 </style>

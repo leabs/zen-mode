@@ -23,7 +23,7 @@
   #share-menu {
     position: fixed;
     bottom: 1rem;
-    right: 1rem;
+    right: .75rem;
     z-index: 100;
   }
 </style>
@@ -35,7 +35,7 @@
       .writeText(pageUrl)
       .then(() => {
         console.log("Page URL copied to clipboard");
-        alert("Page URL copied to clipboard");
+        alert("URL copied to clipboard!");
       })
       .catch((err) => {
         console.error("Failed to copy: ", err);
