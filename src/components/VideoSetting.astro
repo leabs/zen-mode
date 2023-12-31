@@ -8,7 +8,7 @@
 
 //innerHTML for an  array of all the stream links inside input boxes
 videoLinks.innerHTML = vidsArray.map((vid) => {
-  return `<input class="input" type="text" value=${vid} />`;
+  return `<input class="mb-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" value=${vid} />`;
 });
 //If value changes for the VIDEO LINKS input, update the video links
 const videoLinksInputs = document.querySelectorAll(".input");

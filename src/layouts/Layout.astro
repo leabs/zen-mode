@@ -6,6 +6,7 @@ export interface Props {
 const { title } = Astro.props;
 import SettingsMenu from '../components/SettingsMenu.astro';
 import Share from '../components/Share.astro';
+// import Create from '../components/Create.astro';
 ---
 
 <!DOCTYPE html>
@@ -25,6 +26,7 @@ import Share from '../components/Share.astro';
 	<body>
 		<SettingsMenu />
 		<Share />
+		<!-- <Create /> -->
 		<slot />
 	</body>
 </html>
