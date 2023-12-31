@@ -4,9 +4,11 @@ export interface Props {
 }
 
 const { title } = Astro.props;
-import SettingsMenu from '../components/SettingsMenu.astro';
-import Share from '../components/Share.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 // import Create from '../components/Create.astro';
+
+import { ViewTransitions } from 'astro:transitions';
 ---
 
 <!DOCTYPE html>
@@ -20,14 +22,14 @@ import Share from '../components/Share.astro';
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
-
+	
 
 	</head>
 	<body>
-		<SettingsMenu />
-		<Share />
+		<Nav />
 		<!-- <Create /> -->
 		<slot />
+		<Footer />
 	</body>
 </html>
 
