@@ -1,35 +1,44 @@
 ---
 export interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
 // import Create from '../components/Create.astro';
 
-import { ViewTransitions } from 'astro:transitions';
+import { ViewTransitions } from "astro:transitions";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="dark bg-zinc-950">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
-	
-
-	</head>
-	<body>
-		<Nav />
-		<!-- <Create /> -->
-		<slot />
-		<Footer />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="17ada96c-9284-407a-8c36-db8eca0b1829"></script>
+  </head>
+  <body>
+    <Nav />
+    <!-- <Create /> -->
+    <slot />
+    <Footer />
+  </body>
 </html>
-
