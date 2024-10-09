@@ -10,7 +10,7 @@ if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
     const videos = data.get("videos");
-    if (typeof videos !== "string" || videos.length < 6) {
+    if (typeof videos !== "string" || videos.length < 7) {
       errors.videos += "Password must be at least 6 characters. ";
     }
   } catch (error) {
