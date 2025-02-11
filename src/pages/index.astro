@@ -2,16 +2,16 @@
 import Layout from "../layouts/Layout.astro";
 import streams from "../data/streams.json";
 
-import SettingsMenu from '../components/SettingsMenu.astro';
-import Share from '../components/Share.astro';
+import SettingsMenu from "../components/SettingsMenu.astro";
+import Share from "../components/Share.astro";
 
-const errors = { videos: "" };
-if (Astro.request.method === "POST") {
+async function handleFormRequest() {
+  const errors = { videos: "" };
   try {
     const data = await Astro.request.formData();
     const videos = data.get("videos");
     if (typeof videos !== "string" || videos.length < 7) {
-      errors.videos += "Password must be at least 6 characters. ";
+      errors.videos += "Video URLs must be valid. ";
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -19,13 +19,383 @@ if (Astro.request.method === "POST") {
     }
   }
 }
+
+if (Astro.request.method === "POST") {
+  await handleFormRequest();
+}
 ---
 
 <Layout
   title="ZEN MODE, an easy way to layout embedded content and share it with friends"
 >
   <main class="content mb-0">
-    <SettingsMenu />
+    --- import VideoSetting from "./VideoSetting.astro"; import ColumnSetting
+    from "./ColumnSetting.astro"; // import Create from "./Create.astro"; ---
+
+    <!-- drawer init and toggle -->
+    <div class="text-center">
+      <button
+        id="settings-menu"
+        class="text-white bg-white shadow-lg border-4 border-gray-400 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        type="button"
+        data-drawer-target="drawer-example"
+        data-drawer-show="drawer-example"
+        aria-controls="drawer-example"
+      >
+        <svg
+          class="w-6 h-6 text-gray-800 dark:text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 20"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M7.75 4H19M7.75 4a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 4h2.25m13.5 6H19m-2.25 0a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 10h11.25m-4.5 6H19M7.75 16a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 16h2.25"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- drawer component -->
+    <div
+      id="drawer-example"
+      class="shadow fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 dark:bg-gray-800"
+      tabindex="-1"
+      aria-labelledby="drawer-label"
+    >
+      <h5
+        id="drawer-label"
+        class="mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white"
+      >
+        Settings
+      </h5>
+      <button
+        type="button"
+        data-drawer-hide="drawer-example"
+        aria-controls="drawer-example"
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
+      >
+        <svg
+          class="w-3 h-3"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 14 14"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+        </svg>
+        <span class="sr-only">Close menu</span>
+      </button>
+
+      <h2
+        class="pt-2 my-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white"
+      >
+        Layout
+      </h2>
+
+      <!-- drawer init and toggle -->
+      <div class="text-center">
+        <button
+          id="settings-menu"
+          class="text-white bg-white shadow-lg border-4 border-gray-400 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-700 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          type="button"
+          data-drawer-target="drawer-example"
+          data-drawer-show="drawer-example"
+          aria-controls="drawer-example"
+        >
+          <svg
+            class="w-6 h-6 text-gray-800 dark:text-white"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M7.75 4H19M7.75 4a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 4h2.25m13.5 6H19m-2.25 0a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 10h11.25m-4.5 6H19M7.75 16a2.25 2.25 0 0 1-4.5 0m4.5 0a2.25 2.25 0 0 0-4.5 0M1 16h2.25"
+            ></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- drawer component -->
+      <div
+        id="drawer-example"
+        class="shadow fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 dark:bg-gray-800"
+        tabindex="-1"
+        aria-labelledby="drawer-label"
+      >
+        <h5
+          id="drawer-label"
+          class="mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white"
+        >
+          Settings
+        </h5>
+        <button
+          type="button"
+          data-drawer-hide="drawer-example"
+          aria-controls="drawer-example"
+          class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
+        >
+          <svg
+            class="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+          </svg>
+          <span class="sr-only">Close menu</span>
+        </button>
+
+        <h2
+          class="pt-2 my-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white"
+        >
+          Layout
+        </h2>
+        <!--Select form that shows up to 4 columns, hidden on small screens -->
+        <label for="cols" class="dark:text-gray-100">Column Count:</label>
+        <select
+          name="cols"
+          id="columnSelectBox"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+
+        <script>
+          // Get the column value from the URL
+          let url = new URL(window.location.href);
+          let column = url.searchParams.get("cols");
+
+          //Set current column selection to the value from the URL
+          document.getElementById("columnSelectBox").value = column;
+        </script>
+
+        <h2
+          class="mb-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white"
+        >
+          Video Feeds
+        </h2>
+        <!--Video links -->
+        <form method="POST">
+          <div id="videoLinks"></div>
+        </form>
+        <script>
+          //Set #videoLinks innerHTML to array of input boxes with video urls
+          const videoLinks = document.querySelector("#videoLinks");
+
+          //innerHTML for an  array of all the stream links inside input boxes
+          videoLinks.innerHTML = vidsArray.map((vid) => {
+            return `<input class="mb-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" value=${vid} />`;
+          });
+          //If value changes for the VIDEO LINKS input, update the video links
+          const videoLinksInputs = document.querySelectorAll(".input");
+          videoLinksInputs.forEach((input) => {
+            input.addEventListener("change", (event) => {
+              const value = event.target.value;
+              //update the URL params to include the new video links array stream.link
+              const vidsArray = document.querySelectorAll(".input");
+              const vidsArrayCleaned = [];
+              vidsArray.forEach((vid) => {
+                if (vid.value) {
+                  vidsArrayCleaned.push(vid.value);
+                }
+              });
+              window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+            });
+          });
+
+          //display button
+          videoLinks.innerHTML += `<button class="bg-blue-700 py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" onclick="updateVideoLinks()">Update Video Links</button>`;
+
+          //allow user to update the video links with a button or pressing enter
+          const updateVideoLinks = () => {
+            const vidsArray = document.querySelectorAll(".input");
+            const vidsArrayCleaned = [];
+            vidsArray.forEach((vid) => {
+              if (vid.value) {
+                vidsArrayCleaned.push(vid.value);
+              }
+            });
+            window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+          };
+
+          //update page
+          const updatePage = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const cols = urlParams.get("cols");
+            const vids = urlParams.get("vids");
+            const vidsArray = vids.split(",");
+            const videoLinks = document.querySelector("#videoLinks");
+
+            //innerHTML for an  array of all the stream links inside input boxes
+            videoLinks.innerHTML = vidsArray.map((vid) => {
+              return `<input class="mb-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" value=${vid} />`;
+            });
+            //If value changes for the VIDEO LINKS input, update the video links
+            const videoLinksInputs = document.querySelectorAll(".input");
+            videoLinksInputs.forEach((input) => {
+              input.addEventListener("change", (event) => {
+                const value = event.target.value;
+                //update the URL params to include the new video links array stream.link
+                const vidsArray = document.querySelectorAll(".input");
+                const vidsArrayCleaned = [];
+                vidsArray.forEach((vid) => {
+                  if (vid.value) {
+                    vidsArrayCleaned.push(vid.value);
+                  }
+                });
+                window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+              });
+            });
+
+            //display button
+            videoLinks.innerHTML += `<button class="bg-blue-700 py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" onclick="updateVideoLinks()">Update Video Links</button>`;
+          };
+        </script>
+
+        <br />
+        <h2
+          class="mb-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white"
+        >
+          Video Feed IDs
+        </h2>
+        <p class="mb-6 text-sm text-gray-500 dark:text-gray-100">
+          The video ID comes after <code
+            ><small>https://www.youtube.com/watch?v=</small></code
+          >
+        </p>
+      </div>
+
+      <h2
+        class="mb-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white"
+      >
+        Video Feeds
+      </h2>
+      <!--Video links -->
+      <form method="POST">
+        <div id="videoLinks"></div>
+      </form>
+      <script>
+        //Set #videoLinks innerHTML to array of input boxes with video urls
+        const videoLinks = document.querySelector("#videoLinks");
+
+        //innerHTML for an  array of all the stream links inside input boxes
+        videoLinks.innerHTML = vidsArray.map((vid) => {
+          return `<input class="mb-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" value=${vid} />`;
+        });
+        //If value changes for the VIDEO LINKS input, update the video links
+        const videoLinksInputs = document.querySelectorAll(".input");
+        videoLinksInputs.forEach((input) => {
+          input.addEventListener("change", (event) => {
+            const value = event.target.value;
+            //update the URL params to include the new video links array stream.link
+            const vidsArray = document.querySelectorAll(".input");
+            const vidsArrayCleaned = [];
+            vidsArray.forEach((vid) => {
+              if (vid.value) {
+                vidsArrayCleaned.push(vid.value);
+              }
+            });
+            window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+          });
+        });
+
+        //display button
+        videoLinks.innerHTML += `<button class="bg-blue-700 py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" onclick="updateVideoLinks()">Update Video Links</button>`;
+
+        //allow user to update the video links with a button or pressing enter
+        const updateVideoLinks = () => {
+          const vidsArray = document.querySelectorAll(".input");
+          const vidsArrayCleaned = [];
+          vidsArray.forEach((vid) => {
+            if (vid.value) {
+              vidsArrayCleaned.push(vid.value);
+            }
+          });
+          window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+        };
+
+        //update page
+        const updatePage = () => {
+          const urlParams = new URLSearchParams(window.location.search);
+          const cols = urlParams.get("cols");
+          const vids = urlParams.get("vids");
+          const vidsArray = vids.split(",");
+          const videoLinks = document.querySelector("#videoLinks");
+
+          //innerHTML for an  array of all the stream links inside input boxes
+          videoLinks.innerHTML = vidsArray.map((vid) => {
+            return `<input class="mb-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" value=${vid} />`;
+          });
+          //If value changes for the VIDEO LINKS input, update the video links
+          const videoLinksInputs = document.querySelectorAll(".input");
+          videoLinksInputs.forEach((input) => {
+            input.addEventListener("change", (event) => {
+              const value = event.target.value;
+              //update the URL params to include the new video links array stream.link
+              const vidsArray = document.querySelectorAll(".input");
+              const vidsArrayCleaned = [];
+              vidsArray.forEach((vid) => {
+                if (vid.value) {
+                  vidsArrayCleaned.push(vid.value);
+                }
+              });
+              window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+            });
+          });
+
+          //display button
+          videoLinks.innerHTML += `<button class="bg-blue-700 py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" onclick="updateVideoLinks()">Update Video Links</button>`;
+        };
+      </script>
+
+      <br />
+      <h2
+        class="mb-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white"
+      >
+        Video Feed IDs
+      </h2>
+      <p class="mb-6 text-sm text-gray-500 dark:text-gray-100">
+        The video ID comes after <code
+          ><small>https://www.youtube.com/watch?v=</small></code
+        >
+      </p>
+    </div>
+
+    <style>
+      #settings-menu {
+        position: fixed;
+        bottom: 5rem;
+        right: 0.75rem;
+        z-index: 100;
+      }
+    </style>
+
     <Share />
     <div class="custom-columns">
       {
@@ -48,11 +418,16 @@ if (Astro.request.method === "POST") {
         })
       }
     </div>
-   
   </main>
 </Layout>
 
 <style>
+  #settings-menu {
+    position: fixed;
+    bottom: 5rem;
+    right: 0.75rem;
+    z-index: 100;
+  }
   body {
     margin: 0;
   }
@@ -64,7 +439,7 @@ if (Astro.request.method === "POST") {
     flex-wrap: wrap;
   }
   .custom-column {
-    --element-width: 25%;
+    --element-width: 50%;
     width: var(--element-width, 100%);
     box-sizing: border-box;
   }
@@ -95,22 +470,21 @@ if (Astro.request.method === "POST") {
     width: 100%;
     height: 100%;
   }
-  p{
-    font-size:16px;
-    font-weight:400;
+  p {
+    font-size: 16px;
+    font-weight: 400;
   }
 </style>
 
 <script is:inline>
   //Set default paths
-  const defaultColumns = 3;
+  const defaultColumns = 2;
   const defaultVids = [
     "https://www.youtube.com/watch?v=EwTZ2xpQwpA",
     "https://www.youtube.com/watch?v=9OFpfTd0EIs",
     "https://www.youtube.com/watch?v=1YhR5UfaAzM",
-    "https://www.youtube.com/watch?v=GtBhclCigH0",
-    "https://www.youtube.com/watch?v=Wg60Az10A_E",
-
+    "https://www.youtube.com/watch?v=xCp8HmQuAqM"
+ 
   ];
 
   //Set width prop as URL param '?cols=2'
@@ -170,23 +544,6 @@ if (Astro.request.method === "POST") {
     window.location.search = `?cols=${value}&vids=${vidsArray}`;
   });
 
-  //If user clicks the delete button from video stream, remove that iframe from the dashboard
-  const deleteButtons = document.querySelectorAll(".delete");
-  deleteButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.target.previousSibling.remove();
-      event.target.remove();
-      //update the URL params to include the new video links array stream.link
-      const vidsArray = document.querySelectorAll(".input");
-      const vidsArrayCleaned = [];
-      vidsArray.forEach((vid) => {
-        vidsArrayCleaned.push(vid.value);
-      });
-      window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
-      console.log();
-    });
-  });
-
   //If iframe src is undefined, remove it
   const youtubeIframes = document.querySelectorAll(".youtube");
 
@@ -198,24 +555,23 @@ if (Astro.request.method === "POST") {
   //Set #videoLinks innerHTML to array of input boxes with video urls
   const videoLinks = document.querySelector("#videoLinks");
 
-  //innerHTML for an  array of all the stream links inside input boxes
-  videoLinks.innerHTML = vidsArray.map((vid) => {
-    return `<input class="input" type="text" value=https://www.youtube.com/watch?v=${vid} />`;
-  });
-  //If value changes for the VIDEO LINKS input, update the video links
   const videoLinksInputs = document.querySelectorAll(".input");
+
   videoLinksInputs.forEach((input) => {
-    input.addEventListener("change", (event) => {
-      const value = event.target.value;
-      //update the URL params to include the new video links array stream.link
-      const vidsArray = document.querySelectorAll(".input");
-      const vidsArrayCleaned = [];
-      vidsArray.forEach((vid) => {
-        if (vid.value) {
-          vidsArrayCleaned.push(vid.value);
+    input.addEventListener("input", (event) => {
+      const updatedVids = Array.from(videoLinksInputs).map((input) =>
+        input.value.replace("https://www.youtube.com/watch?v=", "")
+      );
+
+      // Update the iframes dynamically without reloading the page
+      const youtubeIframes = document.querySelectorAll(".youtube");
+      youtubeIframes.forEach((iframe, index) => {
+        //also update the URL params to include the new video links array stream.link
+        window.location.search = `?cols=${cols}&vids=${updatedVids}`;
+        if (updatedVids[index]) {
+          iframe.src = `https://www.youtube.com/embed/${updatedVids[index]}`;
         }
       });
-      window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
     });
   });
 </script>

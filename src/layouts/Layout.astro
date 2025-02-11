@@ -4,11 +4,7 @@ export interface Props {
 }
 
 const { title } = Astro.props;
-import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
-// import Create from '../components/Create.astro';
-
-import { ViewTransitions } from "astro:transitions";
 ---
 
 <!doctype html>
@@ -19,10 +15,7 @@ import { ViewTransitions } from "astro:transitions";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-    />
+
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css"
       rel="stylesheet"
@@ -36,7 +29,7 @@ import { ViewTransitions } from "astro:transitions";
       data-website-id="17ada96c-9284-407a-8c36-db8eca0b1829"></script>
   </head>
   <body>
-    <Nav />
+    <!-- <Nav /> -->
     <!-- <Create /> -->
     <slot />
     <Footer />

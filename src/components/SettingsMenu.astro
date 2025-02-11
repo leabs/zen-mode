@@ -69,13 +69,90 @@ import ColumnSetting from "./ColumnSetting.astro";
   
   <h2 class="pt-2 my-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">Layout</h2>
   <ColumnSetting />
-  <!-- <h2 class="mb-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">Video Feeds</h2>
-  <VideoSetting />
+  <h2 class="mb-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">Video Feeds</h2>
+  <!--Video links -->
+<form method="POST">
+  <div id="videoLinks"></div>
+</form>
+<script>
+  //Set #videoLinks innerHTML to array of input boxes with video urls
+  const videoLinks = document.querySelector("#videoLinks");
+
+  //innerHTML for an  array of all the stream links inside input boxes
+  videoLinks.innerHTML = vidsArray.map((vid) => {
+    return `<input class="mb-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" value=${vid} />`;
+  });
+  //If value changes for the VIDEO LINKS input, update the video links
+  const videoLinksInputs = document.querySelectorAll(".input");
+  videoLinksInputs.forEach((input) => {
+    input.addEventListener("change", (event) => {
+      const value = event.target.value;
+      //update the URL params to include the new video links array stream.link
+      const vidsArray = document.querySelectorAll(".input");
+      const vidsArrayCleaned = [];
+      vidsArray.forEach((vid) => {
+        if (vid.value) {
+          vidsArrayCleaned.push(vid.value);
+        }
+      });
+      window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+    });
+  });
+
+  //display button
+  videoLinks.innerHTML += `<button class="bg-blue-700 py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" onclick="updateVideoLinks()">Update Video Links</button>`;
+
+  //allow user to update the video links with a button or pressing enter
+  const updateVideoLinks = () => {
+    const vidsArray = document.querySelectorAll(".input");
+    const vidsArrayCleaned = [];
+    vidsArray.forEach((vid) => {
+      if (vid.value) {
+        vidsArrayCleaned.push(vid.value);
+      }
+    });
+    window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+  };
+
+  //update page
+  const updatePage = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const cols = urlParams.get("cols");
+    const vids = urlParams.get("vids");
+    const vidsArray = vids.split(",");
+    const videoLinks = document.querySelector("#videoLinks");
+
+    //innerHTML for an  array of all the stream links inside input boxes
+    videoLinks.innerHTML = vidsArray.map((vid) => {
+      return `<input class="mb-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" value=${vid} />`;
+    });
+    //If value changes for the VIDEO LINKS input, update the video links
+    const videoLinksInputs = document.querySelectorAll(".input");
+    videoLinksInputs.forEach((input) => {
+      input.addEventListener("change", (event) => {
+        const value = event.target.value;
+        //update the URL params to include the new video links array stream.link
+        const vidsArray = document.querySelectorAll(".input");
+        const vidsArrayCleaned = [];
+        vidsArray.forEach((vid) => {
+          if (vid.value) {
+            vidsArrayCleaned.push(vid.value);
+          }
+        });
+        window.location.search = `?cols=${cols}&vids=${vidsArrayCleaned}`;
+      });
+    });
+
+    //display button
+    videoLinks.innerHTML += `<button class="bg-blue-700 py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" onclick="updateVideoLinks()">Update Video Links</button>`;
+  };
+</script>
+
   <br>
   <h2 class="mb-2 text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">Video Feed IDs</h2>
   <p class="mb-6 text-sm text-gray-500 dark:text-gray-100">
     The video ID comes after <code><small>https://www.youtube.com/watch?v=</small></code>
-  </p> -->
+  </p>
 </div>
 
 <style>
